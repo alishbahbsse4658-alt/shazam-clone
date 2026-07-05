@@ -1,0 +1,84 @@
+/*
+  index.css
+  ---------
+  Ye file poori app ke "design tokens" define karti hai -
+  colors, fonts, spacing - ek hi jagah par. Isse agar kabhi
+  color badalna ho, sirf yahan change karna padega, har jagah nahi.
+
+  Color palette user ki concert-photo se li gayi hai:
+  stage lights ka purple/magenta/rose combination.
+*/
+
+:root {
+    /* ---- Colors ---- */
+    --bg-void: #150e1b;
+    /* sabse peeche ka background - gehra purple-black */
+    --bg-panel: #211530;
+    /* cards/panels ka surface color */
+    --bg-panel-raised: #2b1c3f;
+    /* thora upar uthaya hua panel (hover states) */
+    --border-soft: #3b2a6b;
+    /* borders - deep indigo */
+    --accent-violet: #c13fd6;
+    /* main interactive accent - buttons, highlights */
+    --accent-violet-dim: #8b2fa1;
+    --accent-rose: #d1206a;
+    /* recording/live indicator */
+    --accent-rose-dim: #93154b;
+    --text-primary: #f3e9f6;
+    /* main text - halka lavender-white */
+    --text-muted: #b9a4c7;
+    /* secondary text */
+    --text-faint: #7c6a8f;
+    /* sabse dabi hui text (placeholders) */
+    /* ---- Fonts ---- */
+    --font-display: "Unbounded", sans-serif;
+    /* headings - bold, concert-poster jaisi personality */
+    --font-body: "Inter", sans-serif;
+    /* normal UI text */
+    --font-mono: "JetBrains Mono", monospace;
+    /* counters, confidence scores */
+    /* ---- Spacing / Shape ---- */
+    --radius-lg: 24px;
+    --radius-md: 14px;
+    --radius-sm: 8px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: radial-gradient( circle at 20% 15%, rgba(193, 63, 214, 0.16), transparent 45%), radial-gradient( circle at 85% 75%, rgba(209, 32, 106, 0.14), transparent 50%), var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+}
+
+
+/* Keyboard users ko clearly dikhna chahiye kya focused hai */
+
+:focus-visible {
+    outline: 2px solid var(--accent-violet);
+    outline-offset: 3px;
+}
+
+
+/* Jo log motion-sensitive hain, unke liye animations kam kar dena */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

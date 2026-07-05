@@ -1,0 +1,201 @@
+/*
+  ListenButton.css
+  ----------------
+  Signature animation: teen rings jo "listening" state mein
+  baari-baari expand hoti hain, jaise concert stage lights ka
+  bokeh effect (jo reference photo mein tha) ya sound waves.
+*/
+
+.listen-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.listen-button {
+    position: relative;
+    width: 168px;
+    height: 168px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    padding: 0;
+}
+
+
+/* Button ke center ka gol solid hissa */
+
+.listen-button__core {
+    position: relative;
+    z-index: 2;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    background: linear-gradient(145deg, var(--accent-violet), var(--accent-violet-dim));
+    box-shadow: 0 8px 30px rgba(193, 63, 214, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.listen-button:hover .listen-button__core {
+    transform: scale(1.04);
+    box-shadow: 0 10px 36px rgba(193, 63, 214, 0.6);
+}
+
+
+/* Rings - default mein invisible/static rehte hain */
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-violet);
+    opacity: 0;
+}
+
+.ring--inner {
+    width: 104px;
+    height: 104px;
+}
+
+.ring--middle {
+    width: 136px;
+    height: 136px;
+}
+
+.ring--outer {
+    width: 168px;
+    height: 168px;
+}
+
+
+/* ---- Listening state: rings pulse karti hain baari baari ---- */
+
+.listen-button--listening .listen-button__core {
+    background: linear-gradient(145deg, var(--accent-rose), var(--accent-rose-dim));
+    box-shadow: 0 8px 30px rgba(209, 32, 106, 0.5);
+}
+
+.listen-button--listening .ring {
+    border-color: var(--accent-rose);
+    animation: pulse-ring 1.8s ease-out infinite;
+}
+
+.listen-button--listening .ring--middle {
+    animation-delay: 0.3s;
+}
+
+.listen-button--listening .ring--outer {
+    animation-delay: 0.6s;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+}
+
+
+/* ---- Identifying state: core halka sa dheeme dheeme pulse kare ---- */
+
+.listen-button--identifying .listen-button__core {
+    animation: soft-pulse 1s ease-in-out infinite;
+}
+
+@keyframes soft-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+
+/* ---- Result state ---- */
+
+.listen-button--result .listen-button__core {
+    background: linear-gradient(145deg, var(--border-soft), var(--bg-panel-raised));
+}
+
+.listen-status {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.listen-error {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--accent-rose);
+    max-width: 280px;
+    text-align: center;
+}
+
+
+/* ---- Result card ---- */
+
+.result-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 28px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    min-width: 240px;
+    text-align: center;
+}
+
+.result-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.result-artist {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.result-confidence {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    margin: 4px 0 0;
+}
+
+.result-reset {
+    margin-top: 10px;
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.result-reset:hover {
+    background: var(--bg-panel-raised);
+}
