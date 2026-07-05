@@ -143,15 +143,27 @@ def identify_endpoint():
         return jsonify({"error": "Koi audio clip nahi mili"}), 400
 
     recorded_file = request.files["file"]
-    temp_filename = f"query_{uuid.uuid4().hex}.wav"
+    # Browser se recording aksar .webm format mein aati hai - hum
+    # asal extension use karte hain taake librosa/ffmpeg isay
+    # sahi tarah pehchan sakein
+    temp_filename = f"query_{uuid.uuid4().hex}_{recorded_file.filename}"
     temp_path = os.path.join(UPLOAD_FOLDER, temp_filename)
     recorded_file.save(temp_path)
 
-    result = identify_song(temp_path)
-
-    # Temporary query file ko delete kar dena - ye database mein
-    # store nahi honi chahiye, sirf matching ke liye thi
-    os.remove(temp_path)
+    try:
+        result = identify_song(temp_path)
+    except Exception as e:
+        # Ye try/except zaroori hai - iske bina agar fingerprinting
+        # fail hoti (jaise ffmpeg missing hone se), Flask ka debug
+        # server ek raw error page bhej deta jisme CORS headers
+        # nahi hote, aur browser confusing "CORS blocked" error
+        # dikhata - jabke asal masla kuch aur hota hai.
+        return jsonify({"error": f"Audio process nahi ho saka: {str(e)}"}), 500
+    finally:
+        # Temporary query file ko delete kar dena - chahe success ho
+        # ya error, ye file database mein store nahi honi chahiye
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
 
     if result is None:
         return jsonify({"match": False, "message": "Song recognize nahi hua"})

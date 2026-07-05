@@ -77,10 +77,17 @@ def extract_peaks(spectrogram_db, amplitude_threshold=-40, neighborhood_size=20)
 
 
 # ---------- STEP 3: Hash Generation ----------
-def generate_hashes(peaks, fan_out=5, min_time_delta=1, max_time_delta=200):
+def generate_hashes(peaks, fan_out=5, min_time_delta=1, max_time_delta=200, freq_bin_size=2):
     """
     Peaks ke pairs banati hai (anchor + target) aur har pair se
     ek unique hash banati hai. Ye hash hi database mein store hoga.
+
+    freq_bin_size: Frequencies ko chote groups mein "round" kar dete
+    hain (jaise 0-1 -> bin 0, 2-3 -> bin 1, waghera). Ye zaroori hai
+    kyunke jab audio speaker se baj kar mic se dobara record hota hai,
+    frequencies thodi si shift ho jati hain - agar hum EXACT frequency
+    use karein hash banane ke liye, to real-world recording kabhi match
+    nahi karegi. Bins use karne se chhoti shifts bhi "same" gini jati hain.
     """
 
     # Peaks ko time ke hisaab se sort karna zaroori hai, taake
@@ -106,10 +113,14 @@ def generate_hashes(peaks, fan_out=5, min_time_delta=1, max_time_delta=200):
             # (bohot paas ya bohot door wale pairs useful nahi hote)
             if min_time_delta <= time_delta <= max_time_delta:
 
+                # Frequencies ko bins mein round karna (tolerance ke liye)
+                anchor_bin = anchor_freq // freq_bin_size
+                target_bin = target_freq // freq_bin_size
+
                 # Ye teen values mila kar ek unique hash banti hai:
-                # anchor ki frequency, target ki frequency, aur
+                # anchor ki frequency-bin, target ki frequency-bin, aur
                 # dono ke beech time ka farak
-                raw_string = f"{anchor_freq}|{target_freq}|{time_delta}"
+                raw_string = f"{anchor_bin}|{target_bin}|{time_delta}"
 
                 # hashlib se ek fixed-length, unique hash string banana
                 hash_value = hashlib.sha1(raw_string.encode()).hexdigest()[:20]

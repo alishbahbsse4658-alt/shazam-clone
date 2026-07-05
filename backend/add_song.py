@@ -42,7 +42,7 @@ def add_song(file_path, title, artist="Unknown", source_type="upload"):
     if current_count >= MAX_SONGS:
         # Ye Exception raise karta hai - matlab function yahin
         # ruk jayega aur error message backend/frontend tak pahunchega
-        raise Exception(f"Database full hai! Limit {MAX_SONGS} songs hai.")
+        raise Exception(f"Database is full! Limit {MAX_SONGS} songs.")
 
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
@@ -61,7 +61,7 @@ def add_song(file_path, title, artist="Unknown", source_type="upload"):
     connection.commit()
 
     # ---------- Step 3: Fingerprint banana ----------
-    print(f"'{title}' ka fingerprint ban raha hai, thora time lagega...")
+    print(f"'{title}' wait a little.... creating a fingerprint")
     hashes = fingerprint_audio(file_path)   # ye fingerprint.py wala function hai
 
     # ---------- Step 4: Saare hashes ko database mein daalna ----------
@@ -78,7 +78,7 @@ def add_song(file_path, title, artist="Unknown", source_type="upload"):
     connection.commit()
     connection.close()
 
-    print(f"'{title}' successfully add ho gaya. Song ID: {song_id}, Hashes stored: {len(hashes)}")
+    print(f"'{title}' has been added successfully. Song ID: {song_id}, Hashes stored: {len(hashes)}")
     return song_id
 
 
