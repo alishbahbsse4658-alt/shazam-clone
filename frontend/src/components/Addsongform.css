@@ -1,0 +1,136 @@
+.add-song-card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin: 0 auto;
+}
+
+.add-song-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 18px;
+    color: var(--text-primary);
+}
+
+.tab-switcher {
+    display: flex;
+    gap: 6px;
+    background: var(--bg-void);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    margin-bottom: 18px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 9px 0;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tab-button--active {
+    background: var(--accent-violet);
+    color: white;
+}
+
+.add-song-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.text-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-soft);
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.text-input::placeholder {
+    color: var(--text-faint);
+}
+
+.text-input:focus {
+    border-color: var(--accent-violet);
+}
+
+.file-drop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 14px;
+    border-radius: var(--radius-sm);
+    border: 1.5px dashed var(--border-soft);
+    background: var(--bg-void);
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s ease;
+}
+
+.file-drop:hover {
+    border-color: var(--accent-violet);
+}
+
+.file-drop__text {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.submit-button {
+    margin-top: 4px;
+    padding: 12px 0;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(120deg, var(--accent-violet), var(--accent-rose));
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.submit-button:hover {
+    opacity: 0.92;
+}
+
+.submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-message {
+    margin: 14px 0 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    text-align: center;
+}
+
+.form-message--success {
+    color: #7fe0a8;
+}
+
+.form-message--error {
+    color: var(--accent-rose);
+}
