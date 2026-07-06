@@ -45,7 +45,7 @@ function AddSongForm({ onSongAdded }) {
       if (activeTab === "upload") {
         if (!file) {
           setStatus("error");
-          setMessage("Pehle koi audio file chunein.");
+          setMessage("First choose any audio file.");
           return;
         }
 
@@ -61,7 +61,7 @@ function AddSongForm({ onSongAdded }) {
       } else {
         if (!youtubeUrl) {
           setStatus("error");
-          setMessage("Pehle YouTube link daalein.");
+          setMessage("Add YouTube link First.");
           return;
         }
 
@@ -82,12 +82,12 @@ function AddSongForm({ onSongAdded }) {
         // Backend se aaya hua error message dikhana
         // (jaise "Database full hai!" ya koi aur wajah)
         setStatus("error");
-        setMessage(data.error || "Kuch ghalat ho gaya.");
+        setMessage(data.error || "Something wrong happens.");
         return;
       }
 
       setStatus("success");
-      setMessage(`"${data.title}" successfully add ho gaya.`);
+      setMessage(`"${data.title}" has been added successfully.`);
       resetFormFields();
 
       // Parent (App.jsx) ko batana ke ek naya song add hua hai,

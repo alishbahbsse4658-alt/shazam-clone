@@ -140,7 +140,7 @@ def identify_endpoint():
     Hum usay temporarily save karke identify_song() ko denge.
     """
     if "file" not in request.files:
-        return jsonify({"error": "Koi audio clip nahi mili"}), 400
+        return jsonify({"error": "No audio clip has been found"}), 400
 
     recorded_file = request.files["file"]
     # Browser se recording aksar .webm format mein aati hai - hum
@@ -158,7 +158,7 @@ def identify_endpoint():
         # server ek raw error page bhej deta jisme CORS headers
         # nahi hote, aur browser confusing "CORS blocked" error
         # dikhata - jabke asal masla kuch aur hota hai.
-        return jsonify({"error": f"Audio process nahi ho saka: {str(e)}"}), 500
+        return jsonify({"error": f"Audio doesn't process: {str(e)}"}), 500
     finally:
         # Temporary query file ko delete kar dena - chahe success ho
         # ya error, ye file database mein store nahi honi chahiye
@@ -166,7 +166,7 @@ def identify_endpoint():
             os.remove(temp_path)
 
     if result is None:
-        return jsonify({"match": False, "message": "Song recognize nahi hua"})
+        return jsonify({"match": False, "message": "Song didn't recognize"})
 
     return jsonify({"match": True, **result})
 

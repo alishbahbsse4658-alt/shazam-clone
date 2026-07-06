@@ -137,7 +137,7 @@ function ListenButton() {
             </>
           ) : (
             <p className="result-artist">
-              Is clip ka koi match database mein nahi mila.
+              There's no match in database for this clip .
             </p>
           )}
           <button className="result-reset" onClick={handleReset}>

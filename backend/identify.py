@@ -114,7 +114,7 @@ def identify_song(audio_path):
     print("Recorded clip ka fingerprint ban raha hai...")
     query_hashes = fingerprint_audio(audio_path)
 
-    print("Database mein match dhoonda ja raha hai...")
+    print("Finding match in Database...")
     all_db_matches, query_hash_map = find_matches_in_db(query_hashes)
 
     best_song_id, best_score = score_candidates(all_db_matches, query_hash_map)
