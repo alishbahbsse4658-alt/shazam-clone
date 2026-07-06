@@ -45,7 +45,7 @@ function AddSongForm({ onSongAdded }) {
       if (activeTab === "upload") {
         if (!file) {
           setStatus("error");
-          setMessage("First choose any audio file.");
+          setMessage("First select any audio file.");
           return;
         }
 
@@ -61,7 +61,7 @@ function AddSongForm({ onSongAdded }) {
       } else {
         if (!youtubeUrl) {
           setStatus("error");
-          setMessage("Add YouTube link First.");
+          setMessage("Enter YouTube link first.");
           return;
         }
 
@@ -82,7 +82,7 @@ function AddSongForm({ onSongAdded }) {
         // Backend se aaya hua error message dikhana
         // (jaise "Database full hai!" ya koi aur wajah)
         setStatus("error");
-        setMessage(data.error || "Something wrong happens.");
+        setMessage(data.error || "Something went wrong.");
         return;
       }
 
@@ -95,13 +95,17 @@ function AddSongForm({ onSongAdded }) {
       onSongAdded();
     } catch (error) {
       setStatus("error");
-      setMessage("Backend se connect nahi ho saka. Kya server chal raha hai?");
+      setMessage("Not connected to Backend.Is server running?");
     }
   }
 
   return (
     <section className="add-song-card">
+      <p className="add-song-eyebrow">Grow the library</p>
       <h2 className="add-song-title">Add new songs</h2>
+      <p className="add-song-subtitle">
+        Upload a track or paste a YouTube link — Shehzam will fingerprint it automatically.
+      </p>
 
       {/* Tab switcher */}
       <div className="tab-switcher" role="tablist">
@@ -134,9 +138,16 @@ function AddSongForm({ onSongAdded }) {
               onChange={(e) => setFile(e.target.files[0])}
               hidden
             />
-            <span className="file-drop__text">
-              {file ? file.name : "Choose an audio file (MP3, WAV)"}
+            <span className="file-drop__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 16V4m0 0L7 9m5-5 5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </span>
+            <span className="file-drop__text">
+              {file ? file.name : "Choose an audio file"}
+            </span>
+            <span className="file-drop__hint">MP3 or WAV</span>
           </label>
         ) : (
           <input

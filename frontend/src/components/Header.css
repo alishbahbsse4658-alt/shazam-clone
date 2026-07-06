@@ -2,12 +2,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 28px 40px;
+    padding: 32px 44px;
+    position: relative;
+    z-index: 1;
 }
 
 .app-logo {
+    display: flex;
+    align-items: baseline;
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 23px;
     font-weight: 700;
     margin: 0;
     letter-spacing: 0.01em;
@@ -15,18 +19,45 @@
 }
 
 .app-logo__mark {
-    color: var(--accent-rose);
+    background: linear-gradient(135deg, var(--accent-rose), var(--accent-violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-right: 1px;
 }
 
 .song-counter {
     display: flex;
-    align-items: baseline;
-    gap: 6px;
-    padding: 8px 18px;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
     border-radius: 999px;
     background: var(--bg-panel);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-soft);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
     font-family: var(--font-mono);
+}
+
+.song-counter::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-violet);
+    box-shadow: 0 0 8px var(--accent-violet);
+    animation: blink-dot 2.2s ease-in-out infinite;
+}
+
+@keyframes blink-dot {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
 }
 
 .song-counter__count {
@@ -41,15 +72,22 @@
 }
 
 .song-counter__max {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--text-muted);
+    letter-spacing: 0.02em;
 }
 
 @media (max-width: 480px) {
     .app-header {
-        padding: 20px;
+        padding: 22px 20px;
     }
     .app-logo {
         font-size: 18px;
+    }
+    .song-counter {
+        padding: 7px 14px;
+    }
+    .song-counter__max {
+        display: none;
     }
 }

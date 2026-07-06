@@ -33,6 +33,11 @@ function App() {
 
   return (
     <div className="app-shell">
+      {/* Ye sirf decorative glow orbs hain - koi functionality nahi,
+          sirf premium ambient background feel ke liye */}
+      <div className="ambient-orb ambient-orb--violet" aria-hidden="true"></div>
+      <div className="ambient-orb ambient-orb--rose" aria-hidden="true"></div>
+
       <Header songCount={songCount} maxSongs={maxSongs} />
 
       <main className="app-main">

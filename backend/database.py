@@ -84,7 +84,7 @@ def create_tables():
     # Connection band karna, taake koi file lock na reh jaye.
     connection.close()
 
-    print(f"Database '{DB_NAME}' ban gayi hai, dono tables (songs, hashes) ready hain.")
+    print(f"Database '{DB_NAME}' has been created, both tables (songs, hashes) are ready.")
 
 
 # Ye Python ka standard tareeqa hai kehne ka:

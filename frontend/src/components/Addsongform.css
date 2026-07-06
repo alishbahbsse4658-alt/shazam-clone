@@ -1,53 +1,81 @@
 .add-song-card {
+    position: relative;
     width: 100%;
-    max-width: 480px;
+    max-width: 500px;
     background: var(--bg-panel);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-lg);
-    padding: 28px;
-    margin: 0 auto;
+    padding: 36px 34px;
+    box-shadow: var(--shadow-card);
+    z-index: 1;
+}
+
+.add-song-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-violet);
+    margin: 0 0 8px;
 }
 
 .add-song-title {
     font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0 0 18px;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 8px;
     color: var(--text-primary);
+}
+
+.add-song-subtitle {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0 0 24px;
+    max-width: 40ch;
 }
 
 .tab-switcher {
     display: flex;
-    gap: 6px;
-    background: var(--bg-void);
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-soft);
     border-radius: var(--radius-md);
-    padding: 4px;
-    margin-bottom: 18px;
+    padding: 5px;
+    margin-bottom: 20px;
 }
 
 .tab-button {
     flex: 1;
-    padding: 9px 0;
+    padding: 10px 0;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: calc(var(--radius-md) - 5px);
     background: transparent;
     color: var(--text-muted);
     font-family: var(--font-body);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tab-button:hover:not(.tab-button--active) {
+    color: var(--text-primary);
 }
 
 .tab-button--active {
-    background: var(--accent-violet);
+    background: linear-gradient(120deg, var(--accent-violet), var(--accent-violet-2));
     color: white;
+    box-shadow: 0 4px 16px rgba(193, 63, 214, 0.4);
 }
 
 .add-song-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .form-row {
@@ -57,13 +85,14 @@
 
 .text-input {
     width: 100%;
-    padding: 12px 14px;
+    padding: 13px 16px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-soft);
-    background: var(--bg-void);
+    background: rgba(0, 0, 0, 0.22);
     color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 14px;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .text-input::placeholder {
@@ -72,56 +101,83 @@
 
 .text-input:focus {
     border-color: var(--accent-violet);
+    background: rgba(0, 0, 0, 0.32);
 }
 
 .file-drop {
+    position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 18px 14px;
+    gap: 6px;
+    padding: 26px 14px;
     border-radius: var(--radius-sm);
     border: 1.5px dashed var(--border-soft);
-    background: var(--bg-void);
+    background: rgba(0, 0, 0, 0.18);
     cursor: pointer;
     text-align: center;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .file-drop:hover {
     border-color: var(--accent-violet);
+    background: rgba(193, 63, 214, 0.06);
+}
+
+.file-drop__icon {
+    color: var(--accent-violet);
+    opacity: 0.9;
 }
 
 .file-drop__text {
     font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.file-drop__hint {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
 }
 
 .submit-button {
-    margin-top: 4px;
-    padding: 12px 0;
+    margin-top: 6px;
+    padding: 14px 0;
     border: none;
     border-radius: var(--radius-sm);
     background: linear-gradient(120deg, var(--accent-violet), var(--accent-rose));
     color: white;
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: 14px;
+    font-size: 14.5px;
     cursor: pointer;
-    transition: opacity 0.15s ease;
+    box-shadow: 0 8px 28px rgba(193, 63, 214, 0.35);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 
-.submit-button:hover {
-    opacity: 0.92;
+.submit-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 34px rgba(193, 63, 214, 0.48);
+}
+
+.submit-button:active:not(:disabled) {
+    transform: translateY(0);
 }
 
 .submit-button:disabled {
-    opacity: 0.6;
+    opacity: 0.55;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .form-message {
-    margin: 14px 0 0;
+    margin: 16px 0 0;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
     font-family: var(--font-body);
     font-size: 13px;
     text-align: center;
@@ -129,8 +185,21 @@
 
 .form-message--success {
     color: #7fe0a8;
+    background: rgba(127, 224, 168, 0.08);
+    border: 1px solid rgba(127, 224, 168, 0.25);
 }
 
 .form-message--error {
     color: var(--accent-rose);
+    background: rgba(224, 33, 126, 0.08);
+    border: 1px solid rgba(224, 33, 126, 0.25);
+}
+
+@media (max-width: 480px) {
+    .add-song-card {
+        padding: 26px 22px;
+    }
+    .form-row {
+        flex-direction: column;
+    }
 }

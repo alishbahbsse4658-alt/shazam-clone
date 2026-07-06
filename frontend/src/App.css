@@ -1,7 +1,49 @@
 .app-shell {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    isolation: isolate;
+}
+
+
+/* Decorative blurred glow orbs - ambient premium atmosphere,
+   purely visual, positioned behind everything (z-index -1) */
+
+.ambient-orb {
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.5;
+    pointer-events: none;
+    animation: drift 18s ease-in-out infinite alternate;
+}
+
+.ambient-orb--violet {
+    width: 480px;
+    height: 480px;
+    top: -120px;
+    left: -100px;
+    background: radial-gradient(circle, var(--accent-violet-2), transparent 70%);
+}
+
+.ambient-orb--rose {
+    width: 420px;
+    height: 420px;
+    bottom: -140px;
+    right: -100px;
+    background: radial-gradient(circle, var(--accent-rose), transparent 70%);
+    animation-delay: 4s;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(30px, -20px) scale(1.08);
+    }
 }
 
 .app-main {
@@ -10,6 +52,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 56px;
-    padding: 24px;
+    gap: 64px;
+    padding: 32px 24px 80px;
+}
+
+@media (max-width: 480px) {
+    .app-main {
+        gap: 48px;
+        padding: 20px 16px 56px;
+    }
+    .ambient-orb {
+        filter: blur(60px);
+        opacity: 0.4;
+    }
 }

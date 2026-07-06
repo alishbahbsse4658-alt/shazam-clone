@@ -12,7 +12,7 @@ function Header({ songCount, maxSongs }) {
   return (
     <header className="app-header">
       <h1 className="app-logo">
-        <span className="app-logo__mark">!</span>Shehzam
+        <span className="app-logo__mark">!</span>Shazam_Clone
       </h1>
 
       <div className="song-counter" role="status" aria-live="polite">

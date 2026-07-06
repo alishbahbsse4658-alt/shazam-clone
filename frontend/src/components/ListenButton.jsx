@@ -102,21 +102,31 @@ function ListenButton() {
 
   return (
     <div className="listen-section">
-      <button
-        className={`listen-button listen-button--${status}`}
-        onClick={status === "result" ? handleReset : handleListenClick}
-        aria-label={status === "idle" ? "Start listening" : "Listening in progress"}
-      >
-        {/* Pulsing rings - sirf "listening" state mein dikhte hain */}
-        <span className="ring ring--outer" aria-hidden="true"></span>
-        <span className="ring ring--middle" aria-hidden="true"></span>
-        <span className="ring ring--inner" aria-hidden="true"></span>
+      <div className="listen-hero">
+        {/* Waveform bars - sirf decorative, koi functionality nahi */}
+        <div className="waveform" aria-hidden="true">
+          {[...Array(9)].map((_, i) => (
+            <span key={i} className="waveform__bar" style={{ "--i": i }}></span>
+          ))}
+        </div>
 
-        <span className="listen-button__core">
-          <MicIcon />
-        </span>
-      </button>
+        <button
+          className={`listen-button listen-button--${status}`}
+          onClick={status === "result" ? handleReset : handleListenClick}
+          aria-label={status === "idle" ? "Start listening" : "Listening in progress"}
+        >
+          {/* Pulsing rings - sirf "listening" state mein dikhte hain */}
+          <span className="ring ring--outer" aria-hidden="true"></span>
+          <span className="ring ring--middle" aria-hidden="true"></span>
+          <span className="ring ring--inner" aria-hidden="true"></span>
 
+          <span className="listen-button__core">
+            <MicIcon />
+          </span>
+        </button>
+      </div>
+
+      <p className="listen-eyebrow">Song recognition</p>
       <p className="listen-status">
         {status === "idle" && "Tap to identify a song"}
         {status === "listening" && "Listening..."}
@@ -133,11 +143,12 @@ function ListenButton() {
             <>
               <p className="result-title">{result.title}</p>
               <p className="result-artist">{result.artist}</p>
-              <p className="result-confidence">confidence: {result.confidence}</p>
+              {/* <p className="result-confidence">confidence: {result.confidence}</p> */}
+              <YoutubeSection title={result.title} artist={result.artist} sourceUrl={result.source_url} />
             </>
           ) : (
             <p className="result-artist">
-              There's no match in database for this clip .
+              No Match Found in Database for this clip.
             </p>
           )}
           <button className="result-reset" onClick={handleReset}>
@@ -147,6 +158,51 @@ function ListenButton() {
       )}
     </div>
   );
+}
+
+// source_url backend se ab hamesha bhej diya jata hai jab bhi
+// mumkin ho (chahe song YouTube link se add hua ho, ya upload se -
+// backend khud search kar leta hai). Agar kabhi search fail ho
+// jaye (bohot rare gaana, ya internet issue), to hum simple
+// fallback link dete hain.
+function YoutubeSection({ title, artist, sourceUrl }) {
+  const videoId = extractYoutubeVideoId(sourceUrl);
+
+  if (videoId) {
+    return (
+      <div className="youtube-embed">
+        <iframe
+          width="100%"
+          height="200"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </div>
+    );
+  }
+
+  const searchQuery = encodeURIComponent(`${title} ${artist}`);
+  return (
+    <a
+      className="youtube-search-link"
+      href={`https://www.youtube.com/results?search_query=${searchQuery}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+     Watch on YouTube ↗
+    </a>
+  );
+}
+
+// YouTube link ke andar se sirf video ID nikaalna
+// (jaise "watch?v=XXXX" ya "youtu.be/XXXX" dono se)
+function extractYoutubeVideoId(url) {
+  if (!url) return null;
+  const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
 }
 
 function MicIcon() {
