@@ -35,8 +35,21 @@ function ListenButton() {
     setResult(null);
 
     try {
-      // Browser se mic permission maangna aur audio stream lena
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Browser se mic permission maangna aur audio stream lena.
+      // echoCancellation/noiseSuppression/autoGainControl ko FALSE
+      // rakhna zaroori hai - warna jab laptop apne hi speaker se
+      // gaana baja raha ho aur laptop ka mic usay record kare, to
+      // browser usay "echo" samajh kar suppress kar deta hai (jaisa
+      // video-call mein hota hai). Isse fingerprinting fail ho jati
+      // hai. Ye settings band karne se raw, unprocessed audio milta
+      // hai - jo fingerprinting ke liye zyada behtar hai.
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
+      });
 
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -68,7 +81,7 @@ function ListenButton() {
         }
       }, RECORD_DURATION_MS);
     } catch (error) {
-      setErrorMessage("Mic access nahi mila. Browser permissions check karein.");
+      setErrorMessage("Microphone access denied. Please check your browser permissions.");
       setStatus("idle");
     }
   }
@@ -89,7 +102,7 @@ function ListenButton() {
       setResult(data);
       setStatus("result");
     } catch (error) {
-      setErrorMessage("Backend se connect nahi ho saka. Kya server chal raha hai?");
+      setErrorMessage("Could not connect to the server. Is the backend running?");
       setStatus("idle");
     }
   }
@@ -143,12 +156,11 @@ function ListenButton() {
             <>
               <p className="result-title">{result.title}</p>
               <p className="result-artist">{result.artist}</p>
-              {/* <p className="result-confidence">confidence: {result.confidence}</p> */}
               <YoutubeSection title={result.title} artist={result.artist} sourceUrl={result.source_url} />
             </>
           ) : (
             <p className="result-artist">
-              No Match Found in Database for this clip.
+              No match was found in the database for this clip.
             </p>
           )}
           <button className="result-reset" onClick={handleReset}>
@@ -192,7 +204,7 @@ function YoutubeSection({ title, artist, sourceUrl }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-     Watch on YouTube ↗
+      Watch video on YouTube ↗
     </a>
   );
 }
